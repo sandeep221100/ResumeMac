@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerCanvas — How to Run on Mac</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-canvas: #fafafa;
+      --grid-line: rgba(0,0,0,.06);
+      --stroke-main: #1e1e1e;
+      --stroke-width: 2.5px;
+      --color-blue: #7faae4;
+      --color-red: #d96b5d;
+      --color-green: #6fa773;
+      --color-gold: #e5a84b;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --muted: #646973;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100dvh;
+      color: var(--stroke-main);
+      background-color: var(--bg-canvas);
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: center;
+      font-family: "DM Sans", -apple-system, system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page { max-width: 780px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ── Header ─────────────────────────────────── */
+    .header { text-align: center; padding: 60px 0 48px; }
+    .brand-mark {
+      display: inline-grid; place-items: center;
+      width: 48px; height: 48px;
+      border: var(--stroke-width) solid var(--stroke-main);
+      border-radius: var(--radius-sm);
+      background: var(--color-gold);
+      font-size: 26px; font-weight: 700;
+      margin-bottom: 18px;
+    }
+    .brand-name {
+      font: 700 clamp(28px, 5vw, 40px) "Space Grotesk";
+      letter-spacing: -.06em;
+    }
+    .brand-tagline {
+      margin-top: 8px; color: var(--muted);
+      font: 11px "DM Mono"; letter-spacing: .1em; text-transform: uppercase;
+    }
+
+    /* ── Section ────────────────────────────────── */
+    section { margin-bottom: 48px; }
+    .section-label {
+      margin-bottom: 14px;
+      color: #315a7d;
+      font: 700 10px "DM Mono";
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h2 {
+      font: 700 clamp(22px, 3.5vw, 30px) "Space Grotesk";
+      letter-spacing: -.04em;
+      margin-bottom: 16px;
+    }
+    p { margin-bottom: 14px; color: #333; }
+    a { color: #315a7d; font-weight: 700; }
+
+    /* ── Cards ──────────────────────────────────── */
+    .card {
+      border: var(--stroke-width) solid var(--stroke-main);
+      border-radius: var(--radius-md);
+      background: #fff;
+      box-shadow: 5px 5px 0 var(--stroke-main);
+      padding: 24px 28px;
+      margin-bottom: 20px;
+    }
+    .card h3 {
+      font: 700 18px "Space Grotesk";
+      letter-spacing: -.03em;
+      margin-bottom: 10px;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    .card-accent-blue  { box-shadow: 5px 5px 0 var(--color-blue); }
+    .card-accent-green { box-shadow: 5px 5px 0 var(--color-green); }
+    .card-accent-gold  { box-shadow: 5px 5px 0 var(--color-gold); }
+    .card-accent-red   { box-shadow: 5px 5px 0 var(--color-red); }
+
+    /* ── Step badges ────────────────────────────── */
+    .step-grid { display: grid; gap: 20px; }
+    .step { display: flex; gap: 16px; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0;
+      display: grid; place-items: center;
+      width: 36px; height: 36px;
+      border: var(--stroke-width) solid var(--stroke-main);
+      border-radius: var(--radius-sm);
+      background: var(--color-gold);
+      font: 700 14px "Space Grotesk";
+    }
+    .step-body { flex: 1; }
+    .step-body h3 {
+      font: 700 16px "Space Grotesk";
+      letter-spacing: -.02em;
+      margin-bottom: 6px;
+    }
+
+    /* ── Code blocks ────────────────────────────── */
+    pre {
+      background: var(--stroke-main);
+      color: #e8e8e8;
+      border: var(--stroke-width) solid var(--stroke-main);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 12px 0 16px;
+      overflow-x: auto;
+      font: 13px/1.7 "DM Mono", monospace;
+    }
+    code {
+      background: rgba(30,30,30,.07);
+      border: 1.5px solid rgba(30,30,30,.15);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font: 13px "DM Mono", monospace;
+    }
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+    }
+    .comment { color: #6a9955; }
+
+    /* ── Checklist ──────────────────────────────── */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon {
+      display: inline-grid; place-items: center;
+      width: 22px; height: 22px; flex-shrink: 0;
+      border: 2px solid var(--stroke-main);
+      border-radius: 4px;
+      background: var(--color-green);
+      color: #fff; font-size: 12px; font-weight: 700;
+    }
+
+    /* ── Warning / Info boxes ───────────────────── */
+    .note {
+      border: var(--stroke-width) solid var(--color-blue);
+      border-radius: var(--radius-sm);
+      background: rgba(127,170,228,.08);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .warning {
+      border-color: var(--color-red);
+      background: rgba(217,107,93,.08);
+    }
+    .success {
+      border-color: var(--color-green);
+      background: rgba(111,167,115,.08);
+    }
+
+    /* ── Architecture table ─────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      font: 700 10px "DM Mono";
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #315a7d;
+      padding: 10px 12px;
+      border-bottom: var(--stroke-width) solid var(--stroke-main);
+    }
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+
+    /* ── Footer ─────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 48px 0 0;
+      border-top: var(--stroke-width) solid var(--stroke-main);
+      margin-top: 60px;
+    }
+    footer small { color: var(--muted); font-size: 12px; }
+    footer a { font-weight: 700; color: var(--stroke-main); }
+
+    @media (max-width: 600px) {
+      .page { padding: 24px 16px 60px; }
+      .header { padding: 40px 0 32px; }
+      pre { font-size: 11px; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- ═══ HEADER ═══ -->
+    <header class="header">
+      <div class="brand-mark" aria-hidden="true">↗</div>
+      <div class="brand-name">CareerCanvas</div>
+      <div class="brand-tagline">How to Run on Mac — Complete Setup Guide</div>
+    </header>
+
+    <!-- ═══ WHAT YOU NEED ═══ -->
+    <section>
+      <p class="section-label">— Prerequisites</p>
+      <h2>What You Need to Install First</h2>
+      <p>Three free tools. Install them once, use them forever. Takes about 10 minutes total.</p>
+
+      <div class="step-grid">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Node.js (v20 or later)</h3>
+            <p>The JavaScript runtime. Download the <strong>LTS</strong> version.</p>
+            <p>🔗 <a href="https://nodejs.org/" target="_blank">https://nodejs.org/</a></p>
+            <p>After installing, open <strong>Terminal</strong> and verify:</p>
+<pre><code>node --version
+<span class="comment"># Should print v20.x.x or higher</span></code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>pnpm (package manager)</h3>
+            <p>This project uses pnpm instead of npm. Install it globally:</p>
+<pre><code>npm install -g pnpm</code></pre>
+            <p>Verify:</p>
+<pre><code>pnpm --version
+<span class="comment"># Should print 11.x.x or higher</span></code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>PostgreSQL (database)</h3>
+            <p>The easiest way on Mac — use <strong>Homebrew</strong>:</p>
+<pre><code><span class="comment"># Install Homebrew first (if you don't have it):</span>
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+<span class="comment"># Install and start PostgreSQL:</span>
+brew install postgresql@16
+brew services start postgresql@16</code></pre>
+            <p>Then create the project database:</p>
+<pre><code>createdb careercanvas</code></pre>
+            <div class="note">
+              <strong>Alternative:</strong> Use a free cloud database from <a href="https://neon.tech" target="_blank">Neon.tech</a> or <a href="https://supabase.com" target="_blank">Supabase</a>. Just copy the connection string — no local PostgreSQL needed.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ DOWNLOAD & INSTALL ═══ -->
+    <section>
+      <p class="section-label">— Download &amp; Install</p>
+      <h2>Get the Project Running</h2>
+
+      <div class="step-grid">
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Download the project from GitHub</h3>
+            <p>Go to <a href="https://github.com/Sandeep221100/ResumeMac" target="_blank">github.com/Sandeep221100/ResumeMac</a>, click the green <strong>Code</strong> button → <strong>Download ZIP</strong>.</p>
+            <p>Extract the ZIP file to your Desktop (or anywhere you like).</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3>Open Terminal and navigate to the project</h3>
+<pre><code><span class="comment"># Navigate to the extracted folder (adjust the path if needed):</span>
+cd ~/Desktop/ResumeMac</code></pre>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h3>Install all dependencies</h3>
+<pre><code>pnpm install</code></pre>
+            <p>This takes 1–5 minutes. It downloads all the code libraries the project needs.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">7</div>
+          <div class="step-body">
+            <h3>Create the database tables</h3>
+<pre><code>pnpm --filter @workspace/db run push</code></pre>
+            <p>This creates the <code>users</code> and <code>resumes</code> tables in PostgreSQL. Only needed once.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ START SERVERS ═══ -->
+    <section>
+      <p class="section-label">— Start the Servers</p>
+      <h2>Launch Backend + Frontend</h2>
+      <p>You need <strong>two Terminal tabs</strong> open at the same time. Both must stay open while you use the app.</p>
+
+      <div class="card card-accent-gold">
+        <h3>Terminal Tab 1 — Backend (API Server)</h3>
+        <p>Make sure you're in the project root (<code>~/Desktop/ResumeMac</code>), then run:</p>
+<pre><code>PORT=5000 \
+JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
+DATABASE_URL=postgresql://postgres@localhost:5432/careercanvas \
+pnpm --filter @workspace/api-server run dev</code></pre>
+        <p>You should see: <code>Server listening {"port":5000}</code></p>
+        <div class="note">
+          If you're using a <strong>cloud database</strong> (Neon, Supabase), replace the <code>DATABASE_URL</code> value with your cloud connection string.
+        </div>
+      </div>
+
+      <div class="card card-accent-blue">
+        <h3>Terminal Tab 2 — Frontend (Web App)</h3>
+        <p>Open a <strong>new Terminal tab</strong> (⌘ + T), navigate to the project, and run:</p>
+<pre><code>cd ~/Desktop/ResumeMac
+pnpm --filter @workspace/job-application-master-profile run dev</code></pre>
+        <p>You should see: <code>Local: http://localhost:5173/</code></p>
+      </div>
+    </section>
+
+    <!-- ═══ VIEW THE APP ═══ -->
+    <section>
+      <p class="section-label">— Open Your Browser</p>
+      <h2>View &amp; Test the Project</h2>
+
+      <div class="card card-accent-green">
+        <h3>Open CareerCanvas</h3>
+        <p>Open <strong>Safari</strong> or <strong>Chrome</strong> and go to:</p>
+        <p style="text-align:center; font-size: 20px; margin: 16px 0;">
+          <a href="http://localhost:5173" target="_blank" style="font-size:20px;">http://localhost:5173</a>
+        </p>
+        <p>The app should load. Here's the full user flow you can test:</p>
+        <ul class="checklist">
+          <li><span class="check-icon">✓</span> Landing page loads with CareerCanvas branding</li>
+          <li><span class="check-icon">✓</span> Click "GET STARTED" → Sign up with any email &amp; password (min 8 chars)</li>
+          <li><span class="check-icon">✓</span> Dashboard shows — click "CREATE NEW RESUME"</li>
+          <li><span class="check-icon">✓</span> Pick a career category (Students, Freshers, etc.)</li>
+          <li><span class="check-icon">✓</span> Browse 40 templates in the gallery — click one</li>
+          <li><span class="check-icon">✓</span> Answer the questionnaire (or skip to see the builder)</li>
+          <li><span class="check-icon">✓</span> Resume Builder shows live preview — download as PDF or DOCX</li>
+          <li><span class="check-icon">✓</span> Go back to Dashboard — your resume is saved</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ═══ YOUR ACCOUNT ═══ -->
+    <section>
+      <p class="section-label">— Your Account</p>
+      <h2>Login &amp; Password</h2>
+
+      <div class="card card-accent-red">
+        <h3>You Create Your Own Account</h3>
+        <p>This is a fresh deployment — <strong>there are no pre-made accounts</strong>. When you first open the app:</p>
+        <ol style="margin: 12px 0 0 20px; display: grid; gap: 8px;">
+          <li>Click <strong>"GET STARTED"</strong> on the landing page</li>
+          <li>Click <strong>"Sign up"</strong> at the bottom of the login form</li>
+          <li>Enter any email and a password (at least 8 characters)</li>
+          <li>Click <strong>"CREATE ACCOUNT"</strong></li>
+          <li>You're logged in — your account is saved in the database</li>
+        </ol>
+        <p style="margin-top: 14px;">Next time you open the app, just log in with the same email and password.</p>
+      </div>
+
+      <div class="note">
+        <strong>Tip:</strong> Your login session lasts 7 days (stored as a secure httpOnly cookie). If you clear browser cookies, you'll need to log in again.
+      </div>
+    </section>
+
+    <!-- ═══ ARCHITECTURE ═══ -->
+    <section>
+      <p class="section-label">— Technical Details</p>
+      <h2>Project Architecture</h2>
+
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Technology</th><th>Port</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Frontend</td><td>React 19 + Vite 7 (SPA)</td><td>5173</td></tr>
+          <tr><td>Backend</td><td>Express 5 REST API</td><td>5000</td></tr>
+          <tr><td>Database</td><td>PostgreSQL + Drizzle ORM</td><td>5432</td></tr>
+          <tr><td>Auth</td><td>JWT + bcrypt + httpOnly cookies</td><td>—</td></tr>
+          <tr><td>Templates</td><td>40 config-driven resume templates</td><td>—</td></tr>
+        </tbody>
+      </table>
+
+      <div class="card">
+        <h3>API Endpoints (Backend on port 5000)</h3>
+        <table>
+          <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>POST</td><td><code>/api/auth/register</code></td><td>Create new account</td></tr>
+            <tr><td>POST</td><td><code>/api/auth/login</code></td><td>Log in</td></tr>
+            <tr><td>POST</td><td><code>/api/auth/logout</code></td><td>Log out</td></tr>
+            <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Get current user</td></tr>
+            <tr><td>GET</td><td><code>/api/resumes</code></td><td>List all resumes</td></tr>
+            <tr><td>GET</td><td><code>/api/resumes/:id</code></td><td>Get resume data</td></tr>
+            <tr><td>POST</td><td><code>/api/resumes</code></td><td>Create resume</td></tr>
+            <tr><td>PATCH</td><td><code>/api/resumes/:id</code></td><td>Update resume</td></tr>
+            <tr><td>DELETE</td><td><code>/api/resumes/:id</code></td><td>Delete resume</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══ QUICK REFERENCE ═══ -->
+    <section>
+      <p class="section-label">— Quick Reference</p>
+      <h2>Copy-Paste Commands (Every Time)</h2>
+
+      <div class="card card-accent-gold">
+        <h3>Start Everything</h3>
+<pre><code><span class="comment"># Tab 1 — Backend:</span>
+cd ~/Desktop/ResumeMac
+PORT=5000 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
+DATABASE_URL=postgresql://postgres@localhost:5432/careercanvas \
+pnpm --filter @workspace/api-server run dev
+
+<span class="comment"># Tab 2 — Frontend (new tab):</span>
+cd ~/Desktop/ResumeMac
+pnpm --filter @workspace/job-application-master-profile run dev</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>Stop Everything</h3>
+        <p>In each Terminal tab, press <code>Ctrl + C</code></p>
+      </div>
+
+      <div class="card">
+        <h3>Open the App</h3>
+        <p>Browser → <a href="http://localhost:5173">http://localhost:5173</a></p>
+      </div>
+    </section>
+
+    <!-- ═══ TROUBLESHOOTING ═══ -->
+    <section>
+      <p class="section-label">— Troubleshooting</p>
+      <h2>Common Issues</h2>
+
+      <div class="card">
+        <h3>"command not found: pnpm"</h3>
+        <p>Run: <code>npm install -g pnpm</code></p>
+      </div>
+
+      <div class="card">
+        <h3>"DATABASE_URL must be set"</h3>
+        <p>Make sure PostgreSQL is running and you included <code>DATABASE_URL</code> in the backend command.</p>
+<pre><code><span class="comment"># Check if PostgreSQL is running:</span>
+pg_isready
+
+<span class="comment"># If not running (Homebrew):</span>
+brew services start postgresql@16</code></pre>
+      </div>
+
+      <div class="card">
+        <h3>"Port 5000 already in use"</h3>
+        <p>Another app is using port 5000. Kill it or use a different port:</p>
+<pre><code><span class="comment"># Find what's using port 5000:</span>
+lsof -i :5000
+
+<span class="comment"># Or use port 5001 instead:</span>
+PORT=5001 JWT_SECRET=... DATABASE_URL=... pnpm --filter @workspace/api-server run dev</code></pre>
+        <p>If you change the backend port, also update <code>vite.config.ts</code> proxy target to match.</p>
+      </div>
+
+      <div class="card">
+        <h3>"Port 5173 already in use"</h3>
+<pre><code>pnpm --filter @workspace/job-application-master-profile run dev -- --port 5174</code></pre>
+        <p>Then open <a href="http://localhost:5174">http://localhost:5174</a> instead.</p>
+      </div>
+
+      <div class="card">
+        <h3>Blank page in browser</h3>
+        <p>Make sure <strong>both</strong> Terminal tabs are running (backend AND frontend). The frontend needs the backend to be running for login/signup to work.</p>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+      <div class="brand-mark" aria-hidden="true" style="margin-bottom:14px;">↗</div>
+      <p style="margin-bottom:6px;"><strong>CareerCanvas</strong> — Build once, reuse often.</p>
+      <small>© 2026 CareerCanvas &nbsp;·&nbsp; <a href="mailto:vestorywealth@gmail.com">vestorywealth@gmail.com</a></small>
+    </footer>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,293 @@
+/* Scoped CareerCanvas resume-import styles — same design tokens and type
+   system as roleSelect.css. A calm, focused step between category selection
+   and the questionnaire. */
+
+.resume-import-page * { box-sizing: border-box; }
+.resume-import-page { scroll-behavior: smooth; }
+.resume-import-page { margin: 0; min-height: 100vh; color: var(--stroke-main); font-family: "DM Sans", sans-serif; }
+.resume-import-page .graph-canvas {
+  background-color: var(--bg-canvas);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+}
+.resume-import-page a { color: inherit; text-decoration: none; }
+.resume-import-page .container { width: min(880px, calc(100% - 64px)); margin: auto; }
+
+/* Nav — identical language to the role-select page */
+.resume-import-page .nav { display: flex; min-height: 91px; align-items: center; justify-content: space-between; }
+.resume-import-page .logo { display: flex; align-items: center; font: 700 21px "Space Grotesk"; letter-spacing: -.08em; }
+.resume-import-page .logo > b { display: grid; width: 30px; height: 30px; margin-right: 8px; place-items: center; border: var(--stroke-width) solid; border-radius: var(--radius-sm); background: var(--color-gold); font-size: 19px; }
+.resume-import-page .logo span { color: #315a7d; }
+.resume-import-page .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+.resume-import-page .back-link:hover { color: var(--stroke-main); }
+
+/* Hero */
+.resume-import-page .import-hero { padding: 56px 0 12px; text-align: center; }
+.resume-import-page .kicker { margin: 0 0 16px; color: #315a7d; font: 10px "DM Mono"; letter-spacing: .1em; }
+.resume-import-page .import-hero h1 { margin: 0 auto; max-width: 640px; font: 700 clamp(32px, 4.4vw, 46px) "Space Grotesk"; letter-spacing: -.03em; line-height: 1.08; }
+.resume-import-page .import-hero .lead { max-width: 520px; margin: 18px auto 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.resume-import-page .import-hero .lead strong { color: var(--stroke-main); }
+
+/* Option cards — same visual language as role cards */
+.resume-import-page .import-option-list { display: grid; gap: 14px; padding: 44px 0 24px; }
+.resume-import-page .import-option-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 22px 24px;
+  border: var(--stroke-width) solid var(--stroke-main);
+  border-radius: var(--radius-md);
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  box-shadow: 4px 4px 0 transparent;
+}
+.resume-import-page .import-option-card:hover,
+.resume-import-page .import-option-card:focus-visible {
+  box-shadow: 4px 4px 0 var(--stroke-main);
+  transform: translate(-2px, -2px);
+  outline: none;
+}
+.resume-import-page .import-option-card.create:hover {
+  box-shadow: 4px 4px 0 var(--color-blue);
+}
+.resume-import-page .import-option-card.upload:hover {
+  box-shadow: 4px 4px 0 var(--color-green);
+}
+.resume-import-page .import-option-icon {
+  display: grid;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1.5px solid var(--stroke-main);
+  border-radius: 50%;
+  background: var(--color-blue);
+}
+.resume-import-page .import-option-card.upload .import-option-icon {
+  background: var(--color-green);
+}
+.resume-import-page .import-option-copy { flex: 1; min-width: 0; }
+.resume-import-page .import-option-copy b { display: block; font: 700 17px "Space Grotesk"; letter-spacing: -.02em; }
+.resume-import-page .import-option-copy small { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.resume-import-page .import-option-arrow {
+  display: grid;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1.5px solid var(--stroke-main);
+  border-radius: 50%;
+  font-size: 15px;
+  transition: transform .15s ease;
+}
+.resume-import-page .import-option-card:hover .import-option-arrow { transform: translateX(3px); }
+.resume-import-page .import-note { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 0; padding: 14px 16px; border: 1.5px dashed var(--muted); border-radius: var(--radius-sm); color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+/* Upload section */
+.resume-import-page .import-back-options {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0 0;
+  padding: 6px 12px;
+  border: 1.5px solid var(--stroke-main);
+  border-radius: var(--radius-sm);
+  background: var(--surface-white);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  transition: color .15s ease, background-color .15s ease;
+}
+.resume-import-page .import-back-options:hover { color: var(--stroke-main); background: var(--surface); }
+
+.resume-import-page .import-upload-section { padding-bottom: 48px; }
+
+.resume-import-page .upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 48px 24px;
+  border: 2.5px dashed var(--stroke-main);
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  text-align: center;
+}
+.resume-import-page .upload-dropzone:hover,
+.resume-import-page .upload-dropzone:focus-visible {
+  border-color: rgba(49, 90, 125, .5);
+  background: #fbfaf6;
+  outline: none;
+}
+.resume-import-page .upload-dropzone.drag-over {
+  border-color: var(--color-blue);
+  background: #f0f4fb;
+  box-shadow: 4px 4px 0 var(--color-blue);
+}
+.resume-import-page .upload-dropzone svg { color: var(--muted); }
+.resume-import-page .dropzone-title { margin: 8px 0 0; color: var(--stroke-main); font: 700 15px "DM Sans"; }
+.resume-import-page .dropzone-hint { margin: 0; color: var(--muted); font-size: 12px; }
+.resume-import-page .upload-error {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border: 1.5px solid var(--color-red);
+  border-radius: var(--radius-sm);
+  background: rgba(217, 107, 93, .08);
+  color: var(--error);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Processing state */
+.resume-import-page .upload-processing {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 36px 24px;
+  border: var(--stroke-width) solid var(--stroke-main);
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  box-shadow: var(--shadow-soft);
+}
+.resume-import-page .upload-processing .spin { animation: spin 1s linear infinite; color: var(--primary); }
+.resume-import-page .processing-title { display: block; font: 700 15px "DM Sans"; color: var(--stroke-main); }
+.resume-import-page .processing-hint { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Result */
+.resume-import-page .upload-result {
+  overflow: hidden;
+  border: var(--stroke-width) solid var(--stroke-main);
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  box-shadow: var(--shadow-soft);
+}
+.resume-import-page .upload-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border-bottom: var(--stroke-width) solid var(--stroke-main);
+  background: rgba(240, 238, 235, .52);
+}
+.resume-import-page .upload-result-info { display: flex; align-items: center; gap: 12px; }
+.resume-import-page .upload-result-info svg { color: var(--success); flex: none; }
+.resume-import-page .upload-result-info b { display: block; font: 700 14px "DM Sans"; color: var(--stroke-main); }
+.resume-import-page .upload-result-info small { display: block; margin-top: 2px; color: var(--muted); font-size: 12px; }
+.resume-import-page .upload-result-reset { min-height: 34px; padding-inline: 12px; font-size: 10px; }
+
+.resume-import-page .upload-empty-preview {
+  margin: 0;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.resume-import-page .preview-list {
+  display: grid;
+  gap: 0;
+  max-height: 440px;
+  overflow: auto;
+  padding: 0 20px;
+}
+.resume-import-page .preview-row {
+  display: grid;
+  grid-template-columns: minmax(150px, .7fr) minmax(0, 1.3fr);
+  gap: 15px;
+  padding: 12px 0;
+  border-top: 1.5px solid rgba(30, 30, 30, .14);
+}
+.resume-import-page .preview-row:first-child { border-top: 0; }
+.resume-import-page .preview-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.42;
+}
+.resume-import-page .preview-value {
+  min-width: 0;
+  color: var(--stroke-main);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.42;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.resume-import-page .upload-result-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  padding: 18px 20px;
+  border-top: var(--stroke-width) solid var(--stroke-main);
+}
+
+/* Footer — identical to role-select page */
+.resume-import-page footer { display: flex; min-height: 90px; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; border-top: 1.5px solid var(--grid-line); }
+
+/* Buttons — reuse global button styles from theme.css */
+.resume-import-page .button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: var(--stroke-width) solid var(--stroke-main);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  box-shadow: 4px 4px 0 var(--btn-shadow, var(--color-blue));
+  transition: box-shadow 160ms ease, transform 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+.resume-import-page .button:hover {
+  box-shadow: 1px 1px 0 var(--btn-shadow, var(--color-blue));
+  transform: translate(3px, 3px);
+}
+.resume-import-page .button-primary {
+  --btn-shadow: var(--color-blue);
+  color: var(--primary-foreground);
+  background: var(--stroke-main);
+}
+.resume-import-page .button-primary:hover { background: #000000; }
+.resume-import-page .button-secondary {
+  --btn-shadow: var(--stroke-main);
+  border-color: var(--stroke-main);
+  color: var(--foreground);
+  background: var(--surface-white);
+}
+.resume-import-page .button-secondary:hover { color: var(--primary); background: var(--surface); }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .resume-import-page .container { width: min(100% - 34px, 560px); }
+  .resume-import-page .nav { min-height: 72px; }
+  .resume-import-page .import-hero { padding: 34px 0 4px; }
+  .resume-import-page .import-option-card { padding: 18px; gap: 14px; }
+  .resume-import-page .import-option-icon { width: 40px; height: 40px; }
+  .resume-import-page .import-option-copy b { font-size: 15px; }
+  .resume-import-page .upload-dropzone { padding: 32px 16px; }
+  .resume-import-page .upload-result-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .resume-import-page .preview-row { grid-template-columns: 1fr; gap: 4px; }
+  .resume-import-page .upload-result-actions { flex-direction: column; }
+  .resume-import-page .upload-result-actions .button { width: 100%; }
+  footer { flex-direction: column; gap: 10px; padding: 20px 0; text-align: center; }
+}

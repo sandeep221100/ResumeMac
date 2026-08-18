@@ -1,0 +1,49 @@
+# Dependencies (install with: pnpm install)
+node_modules/
+
+# Build output
+dist/
+
+# Environment secrets — NEVER push credentials
+.env
+.env.local
+.env.*.local
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE / Editor
+.qoder/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS junk
+Thumbs.db
+ehthumbs.db
+
+# Replit-specific (not needed for local Mac setup)
+attachments/
+.replit
+.replitignore
+**/.replit-artifact/
+replit.md
+
+# Reference / draft files (not part of the app)
+artifacts/homepage-draft-updated/
+artifacts/mockup-sandbox/
+questions.py
+questionnaire.csv
+*.backup
+WHAT_TO_COPY.md
+
+# TypeScript build cache
+*.tsbuildinfo

@@ -1,0 +1,97 @@
+/* Scoped CareerCanvas role-selection styles — a calmer, more deliberate
+   sibling of landing.css. Same tokens and type system, far less motion
+   and illustration so the moment feels focused rather than promotional. */
+
+.role-select-page * { box-sizing: border-box; }
+.role-select-page { scroll-behavior: smooth; }
+.role-select-page { margin: 0; min-height: 100vh; color: var(--stroke-main); font-family: "DM Sans", sans-serif; }
+.role-select-page .graph-canvas {
+  background-color: var(--bg-canvas);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center;
+}
+.role-select-page a { color: inherit; text-decoration: none; }
+.role-select-page .container { width: min(880px, calc(100% - 64px)); margin: auto; }
+
+/* Nav — identical language to the landing page, no marketing links */
+.role-select-page .nav { display: flex; min-height: 91px; align-items: center; justify-content: space-between; }
+.role-select-page .logo { display: flex; align-items: center; font: 700 21px "Space Grotesk"; letter-spacing: -.08em; }
+.role-select-page .logo > b { display: grid; width: 30px; height: 30px; margin-right: 8px; place-items: center; border: var(--stroke-width) solid; border-radius: var(--radius-sm); background: var(--color-gold); font-size: 19px; }
+.role-select-page .logo span { color: #315a7d; }
+.role-select-page .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+.role-select-page .back-link:hover { color: var(--stroke-main); }
+
+/* Header — plain, serious, no illustration */
+.role-select-page .role-hero { padding: 56px 0 12px; text-align: center; }
+.role-select-page .kicker { margin: 0 0 16px; color: #315a7d; font: 10px "DM Mono"; letter-spacing: .1em; }
+.role-select-page .role-hero h1 { margin: 0 auto; max-width: 640px; font: 700 clamp(32px, 4.4vw, 46px) "Space Grotesk"; letter-spacing: -.03em; line-height: 1.08; }
+.role-select-page .role-hero .lead { max-width: 480px; margin: 18px auto 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+
+/* Options — one deliberate choice per row, not a promotional grid */
+.role-select-page .role-list { display: grid; gap: 14px; padding: 44px 0 72px; }
+.role-select-page .role-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 22px 24px;
+  border: var(--stroke-width) solid var(--stroke-main);
+  border-radius: var(--radius-md);
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  box-shadow: 4px 4px 0 transparent;
+}
+.role-select-page .role-card:hover,
+.role-select-page .role-card:focus-visible {
+  box-shadow: 4px 4px 0 var(--stroke-main);
+  transform: translate(-2px, -2px);
+  outline: none;
+}
+.role-select-page .role-card.selected {
+  background: #fbfaf6;
+  box-shadow: 4px 4px 0 var(--color-gold);
+}
+.role-select-page .role-icon {
+  display: grid;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1.5px solid var(--stroke-main);
+  border-radius: 50%;
+  background: var(--role-tint, var(--color-blue));
+}
+.role-select-page .role-copy { flex: 1; min-width: 0; }
+.role-select-page .role-copy b { display: block; font: 700 17px "Space Grotesk"; letter-spacing: -.02em; }
+.role-select-page .role-copy small { display: block; margin-top: 4px; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.role-select-page .role-arrow {
+  display: grid;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1.5px solid var(--stroke-main);
+  border-radius: 50%;
+  font-size: 15px;
+  transition: transform .15s ease;
+}
+.role-select-page .role-card:hover .role-arrow { transform: translateX(3px); }
+
+.role-select-page .role-note { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 0; padding: 14px 16px; border: 1.5px dashed var(--muted); border-radius: var(--radius-sm); color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+.role-select-page footer { display: flex; min-height: 90px; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; border-top: 1.5px solid var(--grid-line); }
+
+@media (max-width: 640px) {
+  .role-select-page .container { width: min(100% - 34px, 560px); }
+  .role-select-page .nav { min-height: 72px; }
+  .role-select-page .role-hero { padding: 34px 0 4px; }
+  .role-select-page .role-card { padding: 18px; gap: 14px; }
+  .role-select-page .role-icon { width: 40px; height: 40px; }
+  .role-select-page .role-copy b { font-size: 15px; }
+  footer { flex-direction: column; gap: 10px; padding: 20px 0; text-align: center; }
+}

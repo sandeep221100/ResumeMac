@@ -113,7 +113,6 @@
 .landing-page .target {position:absolute;top:50%;right:85px;color:var(--color-blue);font:230px "Space Grotesk";transform:translateY(-57%)}
 .landing-page footer {display:flex;flex-wrap:wrap;min-height:auto;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
 @media(max-width:850px){.landing-page .container {width:min(100% - 38px,600px)}
-.landing-page .nav>div>a:not(.editorial-badge) {display:none}
 .landing-page .hero, .landing-page .process, .landing-page .template-grid {grid-template-columns:1fr}
 .landing-page .hero {padding-top:42px}
 .landing-page .hero-art {width:min(100%,530px);margin:auto}

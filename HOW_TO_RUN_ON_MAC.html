@@ -460,6 +460,30 @@ pg_isready
 brew services start postgresql@16</code></pre></div>
       </div>
 
+      <div class="card card-accent-red">
+        <h3>"launchctl bootstrap gui/501...exited with 5"</h3>
+        <p>PostgreSQL failed to start due to a stale launchd service or orphaned lock file. Run these commands <strong>in order</strong>:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># 1. Stop the service</span>
+brew services stop postgresql@16
+
+<span class="comment"># 2. Boot out the stale launchd agent</span>
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/homebrew.mxcl.postgresql@16.plist 2>/dev/null
+
+<span class="comment"># 3. Kill any lingering postgres processes</span>
+killall -9 postgres 2>/dev/null
+
+<span class="comment"># 4. Remove the orphaned lock file</span>
+rm -f /opt/homebrew/var/postgresql@16/postmaster.pid
+
+<span class="comment"># 5. Restart PostgreSQL</span>
+brew services start postgresql@16
+
+<span class="comment"># 6. Verify it's running</span>
+pg_isready</code></pre></div>
+        <p>You should see <code>accepting connections</code>. If you still get an error, check the log:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>cat /opt/homebrew/var/log/postgresql@16.log</code></pre></div>
+      </div>
+
       <div class="card">
         <h3>"Port 5000 already in use"</h3>
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># Find what's using port 5000:</span>

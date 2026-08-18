@@ -57,15 +57,25 @@ The backend stores user accounts and resume data in a PostgreSQL database.
 - **Ubuntu/Debian:** `sudo apt install postgresql postgresql-contrib`
 - **Windows:** Download the installer from https://www.postgresql.org/download/windows/
 
-**Option B — Cloud-hosted database:**
+**Mac only — Create the database admin user** (needed so the app can connect):
 
-Use any PostgreSQL-compatible service (Neon, Supabase, Railway, etc.) and copy the connection string.
+```bash
+createuser -s postgres
+```
 
-After installing locally, create a database for the project:
+If it says `role "postgres" already exists` — that's fine, skip this.
+
+After installing, create a database for the project:
 
 ```bash
 createdb resumeredefined    # or: psql -c "CREATE DATABASE resumeredefined;"
 ```
+
+If it says `database already exists` — that's fine, skip this.
+
+**Option B — Cloud-hosted database (no local install needed):**
+
+Use any PostgreSQL-compatible service (Neon, Supabase, Railway, etc.) and copy the connection string.
 
 ---
 
@@ -75,7 +85,7 @@ The backend needs three environment variables. Create a file named `.env` in the
 
 ```env
 # PostgreSQL connection string
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined
+DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined
 
 # Secret key for signing JWT tokens — use any long random string
 JWT_SECRET=change-me-to-a-long-random-secret
@@ -114,7 +124,9 @@ This creates the `users` and `resumes` tables in your PostgreSQL database:
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push
 ```
 
-You should see Drizzle Kit output confirming the tables were created. You only need to run this once (or after schema changes).
+You should see Drizzle Kit output confirming the `users` and `resumes` tables were created. You only need to run this once (or after schema changes).
+
+> **If you see "role postgres does not exist"**: Run `createuser -s postgres` first, then try again.
 
 ### Step 4: Start the Backend API Server
 
@@ -122,7 +134,7 @@ Open a **new terminal tab/window** and run:
 
 ```bash
 # From the project root:
-PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
+PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 ```
 
 > Or, if you created the `.env` file, your shell may auto-load it (depending on your setup). On Replit or platforms with built-in Secrets, just set the values there and run:
@@ -188,7 +200,7 @@ pnpm install
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push
 
 # 4. Start the backend (in one terminal tab)
-PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
+PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 
 # 5. Start the frontend (in another terminal tab)
 pnpm --filter @workspace/job-application-master-profile run dev
@@ -333,12 +345,35 @@ Install pnpm globally: `npm install -g pnpm`
 
 Install Node.js from https://nodejs.org/
 
+### "role postgres does not exist"
+
+The database admin user wasn't created. Fix it:
+
+```bash
+createuser -s postgres
+```
+
+Then re-run the command that failed.
+
 ### "DATABASE_URL must be set"
 
 The backend cannot connect to PostgreSQL. Make sure:
 1. PostgreSQL is running (`pg_isready` or `brew services list`)
 2. You created the database (`createdb resumeredefined`)
 3. `DATABASE_URL` is set correctly in your environment or `.env` file
+
+### "launchctl bootstrap gui/501...exited with 5" (Mac only)
+
+PostgreSQL failed to start due to a stale service or orphaned lock file. Run these in order:
+
+```bash
+brew services stop postgresql@16
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/homebrew.mxcl.postgresql@16.plist 2>/dev/null
+killall -9 postgres 2>/dev/null
+rm -f /opt/homebrew/var/postgresql@16/postmaster.pid
+brew services start postgresql@16
+pg_isready    # should say "accepting connections"
+```
 
 ### "JWT_SECRET environment variable is required"
 

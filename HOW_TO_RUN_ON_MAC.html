@@ -224,12 +224,17 @@ pnpm --version
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div>
 
-            <p><strong>Now install and start PostgreSQL:</strong></p>
+            <p><strong>Now install and start PostgreSQL</strong> (this is the database that stores your resumes and accounts):</p>
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>brew install postgresql@16
 brew services start postgresql@16</code></pre></div>
 
+            <p><strong>Create a database admin user</strong> (this is needed so the app can connect — copy and paste this <em>exactly</em>):</p>
+            <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>createuser -s postgres</code></pre></div>
+            <p>If it says <code>createuser: error: role "postgres" already exists</code> — that's fine, skip this step.</p>
+
             <p><strong>Create the project database:</strong></p>
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>createdb resumeredefined</code></pre></div>
+            <p>If it says <code>createdb: error: database creation failed: database already exists</code> — that's fine too, skip this step.</p>
 
             <div class="note">
               <strong>Alternative:</strong> Use a free cloud database from <a href="https://neon.tech" target="_blank">Neon.tech</a> or <a href="https://supabase.com" target="_blank">Supabase</a>. Just copy the connection string — no local PostgreSQL needed.
@@ -244,6 +249,10 @@ brew services start postgresql@16</code></pre></div>
     <section>
       <p class="section-label">— Download &amp; Install</p>
       <h2>Get the Project Running</h2>
+
+      <div class="note">
+        <strong>What is Terminal?</strong> Terminal is the black text window on your Mac where you type commands. To open it: press <strong>⌘ + Space</strong>, type <strong>Terminal</strong>, and press Enter. Every command below goes into Terminal. Copy the text, paste it into Terminal (⌘ + V), and press Enter.
+      </div>
 
       <div class="step-grid">
 
@@ -268,8 +277,9 @@ brew services start postgresql@16</code></pre></div>
           <div class="step-num">6</div>
           <div class="step-body">
             <h3>Install all dependencies</h3>
+            <p>This downloads all the code libraries the project needs. Think of it like installing apps on your phone — the project needs these to work.</p>
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>pnpm install</code></pre></div>
-            <p>This takes 1–5 minutes. Wait until you see <code>Done</code>.</p>
+            <p>This takes 1–5 minutes. You'll see a lot of text scrolling — that's normal. Wait until you see <code>Done</code>. You may see a yellow <code>deprecated</code> warning — ignore it, it's harmless.</p>
           </div>
         </div>
 
@@ -277,8 +287,10 @@ brew services start postgresql@16</code></pre></div>
           <div class="step-num">7</div>
           <div class="step-body">
             <h3>Create the database tables</h3>
+            <p>This sets up the database structure (like creating folders and columns to store user data and resumes). Only needed once.</p>
+            <p>Copy this <strong>entire line</strong> and paste into Terminal:</p>
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push</code></pre></div>
-            <p>This creates the <code>users</code> and <code>resumes</code> tables in PostgreSQL. Only needed once.</p>
+            <p>You should see text mentioning <code>users</code> and <code>resumes</code> tables. If you see <code>"role postgres does not exist"</code>, scroll down to the Troubleshooting section below.</p>
           </div>
         </div>
 
@@ -293,12 +305,15 @@ brew services start postgresql@16</code></pre></div>
 
       <div class="card card-accent-gold">
         <h3>Terminal Tab 1 — Backend (API Server)</h3>
-        <p>Make sure you're in the project root (<code>~/Desktop/ResumeMac</code>), then run:</p>
+        <p>The <strong>backend</strong> is the brain of the app — it handles logins, saves data, and talks to the database. It runs in one Terminal tab and must stay open.</p>
+        <p>Make sure you're in the project folder, then copy and paste this <strong>entire block</strong> into Terminal:</p>
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5000 \
 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined \
 pnpm --filter @workspace/api-server run dev</code></pre></div>
-        <p>You should see: <code>Server listening {"port":5000}</code></p>
+        <p><strong>What you should see:</strong> After a few seconds, text like <code>Server listening {"port":5000}</code>. That means it's working. <strong>Do not close this tab.</strong></p>
+        <p><strong>If you see <code>EADDRINUSE: address already in use</code>:</strong> Port 5000 is busy. Run this in a new tab to fix it, then try again:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>lsof -ti :5000 | xargs kill -9</code></pre></div>
         <div class="note">
           If you're using a <strong>cloud database</strong> (Neon, Supabase), replace the <code>DATABASE_URL</code> value with your cloud connection string.
         </div>
@@ -306,10 +321,10 @@ pnpm --filter @workspace/api-server run dev</code></pre></div>
 
       <div class="card card-accent-blue">
         <h3>Terminal Tab 2 — Frontend (Web App)</h3>
-        <p>Open a <strong>new Terminal tab</strong> (⌘ + T), navigate to the project, and run:</p>
+        <p>The <strong>frontend</strong> is what you see — the website itself. Open a <strong>new Terminal tab</strong> (press ⌘ + T) and run:</p>
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>cd ~/Desktop/ResumeMac
 pnpm --filter @workspace/job-application-master-profile run dev</code></pre></div>
-        <p>You should see: <code>Local: http://localhost:5173/</code></p>
+        <p><strong>What you should see:</strong> Text like <code>Local: http://localhost:5173/</code>. That means the website is ready. <strong>Do not close this tab either.</strong></p>
       </div>
     </section>
 
@@ -335,6 +350,38 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
           <li><span class="check-icon">✓</span> Resume Builder shows live preview — download as PDF or DOCX</li>
           <li><span class="check-icon">✓</span> Go back to Dashboard — your resume is saved</li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ═══ EVERY TIME QUICK START ═══ -->
+    <section>
+      <p class="section-label">— Every Time You Want to Run the App</p>
+      <h2>Quick Start (3 commands)</h2>
+      <p>After the first-time setup is done, use these steps every time you want to run the project:</p>
+
+      <div class="card card-accent-gold">
+        <h3>1. Open Terminal, go to your project</h3>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>cd ~/Desktop/ResumeMac</code></pre></div>
+      </div>
+
+      <div class="card card-accent-blue">
+        <h3>2. Start the backend (Tab 1)</h3>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5000 \
+JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
+DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined \
+pnpm --filter @workspace/api-server run dev</code></pre></div>
+        <p>Wait for <code>Server listening</code>. Do not close this tab.</p>
+      </div>
+
+      <div class="card card-accent-green">
+        <h3>3. Start the frontend (Tab 2 — press ⌘+T first)</h3>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>cd ~/Desktop/ResumeMac
+pnpm --filter @workspace/job-application-master-profile run dev</code></pre></div>
+        <p>Wait for <code>http://localhost:5173/</code>. Then open that URL in your browser.</p>
+      </div>
+
+      <div class="note">
+        <strong>To stop the app:</strong> Click inside each Terminal tab and press <strong>Ctrl + C</strong>. That stops the server in that tab.
       </div>
     </section>
 
@@ -448,6 +495,13 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>brew install postgresql@16
 brew services start postgresql@16
 createdb resumeredefined</code></pre></div>
+      </div>
+
+      <div class="card card-accent-red">
+        <h3>"role postgres does not exist"</h3>
+        <p>This means the database admin user wasn't created. Run this to fix it:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>createuser -s postgres</code></pre></div>
+        <p>Then re-run the command that failed (like <code>createdb resumeredefined</code> or the schema push).</p>
       </div>
 
       <div class="card">

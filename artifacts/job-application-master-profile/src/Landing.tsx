@@ -12,11 +12,13 @@ function Logo() {
 
 function Landing({
   onStart,
+  onBrowseTemplates,
   isAuthenticated,
   onLogin,
   onDashboard,
 }: {
   onStart: () => void;
+  onBrowseTemplates?: () => void;
   isAuthenticated?: boolean;
   onLogin?: () => void;
   onDashboard?: () => void;
@@ -49,7 +51,7 @@ function Landing({
           </div>
           <div className="nav-row">
             <a className="save-login" href="#how">Live Preview</a>
-            <a className="save-login" href="#templates">Templates</a>
+            <a className="save-login" href="#" onClick={(e) => { e.preventDefault(); onBrowseTemplates?.(); }}>Templates</a>
           </div>
         </nav>
 

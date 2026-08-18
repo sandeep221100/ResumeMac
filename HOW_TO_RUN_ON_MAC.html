@@ -277,7 +277,7 @@ brew services start postgresql@16</code></pre></div>
           <div class="step-num">7</div>
           <div class="step-body">
             <h3>Create the database tables</h3>
-            <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>pnpm --filter @workspace/db run push</code></pre></div>
+            <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push</code></pre></div>
             <p>This creates the <code>users</code> and <code>resumes</code> tables in PostgreSQL. Only needed once.</p>
           </div>
         </div>

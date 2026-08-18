@@ -526,6 +526,7 @@ function App() {
   const [showRoleSelect, setShowRoleSelect] = useState(false);
   const [showResumeImport, setShowResumeImport] = useState(false);
   const [showTemplateGallery, setShowTemplateGallery] = useState(false);
+    const [templateBrowseMode, setTemplateBrowseMode] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>('ats-classic');
   const [review, setReview] = useState(false);
   const [showResume, setShowResume] = useState(false);
@@ -789,6 +790,12 @@ function App() {
       <Landing
         isAuthenticated={isAuthenticated}
         onStart={handleStartBuilding}
+        onBrowseTemplates={() => {
+          setTemplateBrowseMode(true);
+          setShowLanding(false);
+          setShowTemplateGallery(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         onLogin={() => { setShowLanding(false); setShowLogin(true); }}
         onDashboard={() => { setShowLanding(false); setShowDashboard(true); }}
       />
@@ -824,6 +831,7 @@ function App() {
       <TemplateGallery
         selectedRole={selectedRole}
         selectedTemplate={selectedTemplateId}
+        browseMode={templateBrowseMode}
         onSelect={(id: TemplateId) => {
           setSelectedTemplateId(id);
           // Persist the template choice so ResumeBuilder's loadSettings picks it up
@@ -833,12 +841,28 @@ function App() {
             localStorage.setItem('job-application-resume-settings-v1', JSON.stringify({ ...parsed, template: id }));
           } catch { /* ignore */ }
           setShowTemplateGallery(false);
-          setShowResumeImport(true);
+          if (templateBrowseMode) {
+            // Browse mode: check auth before proceeding to build
+            setTemplateBrowseMode(false);
+            if (isAuthenticated) {
+              setShowRoleSelect(true);
+            } else {
+              setShowLogin(true);
+            }
+          } else {
+            setShowResumeImport(true);
+          }
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onBack={() => {
           setShowTemplateGallery(false);
-          setShowRoleSelect(true);
+          if (templateBrowseMode) {
+            // Browse mode: go back to landing
+            setTemplateBrowseMode(false);
+            setShowLanding(true);
+          } else {
+            setShowRoleSelect(true);
+          }
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
       />

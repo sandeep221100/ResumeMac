@@ -100,11 +100,13 @@ function TemplateCard({
 export default function TemplateGallery({
   selectedRole,
   selectedTemplate,
+  browseMode,
   onSelect,
   onBack,
 }: {
   selectedRole: string | null;
   selectedTemplate?: TemplateId | string;
+  browseMode?: boolean;
   onSelect: (templateId: TemplateId) => void;
   onBack: () => void;
 }) {
@@ -159,10 +161,12 @@ export default function TemplateGallery({
           <ArrowLeft size={15} /> BACK
         </button>
         <div>
-          <div className="eyebrow">Step 2 of 5</div>
-          <h1 className="template-gallery-title">Choose your template</h1>
+          <div className="eyebrow">{browseMode ? 'Browse Templates' : 'Step 2 of 5'}</div>
+          <h1 className="template-gallery-title">{browseMode ? 'Browse our templates' : 'Choose your template'}</h1>
           <p className="template-gallery-subtitle">
-            40 professionally designed templates across 4 categories. You can change this later in the builder.
+            {browseMode
+              ? '40 professionally designed templates across 4 categories. Pick one to start building.'
+              : '40 professionally designed templates across 4 categories. You can change this later in the builder.'}
           </p>
         </div>
       </header>
@@ -211,7 +215,7 @@ export default function TemplateGallery({
           onClick={handleContinue}
           data-testid="button-gallery-continue"
         >
-          CONTINUE <ArrowRight size={15} />
+          {browseMode ? 'START BUILDING WITH THIS TEMPLATE' : 'CONTINUE'} <ArrowRight size={15} />
         </button>
       </div>
     </div>

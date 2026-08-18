@@ -111,7 +111,7 @@ This downloads all packages for every workspace package. It may take 1–5 minut
 This creates the `users` and `resumes` tables in your PostgreSQL database:
 
 ```bash
-pnpm --filter @workspace/db run push
+DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push
 ```
 
 You should see Drizzle Kit output confirming the tables were created. You only need to run this once (or after schema changes).
@@ -185,7 +185,7 @@ cd ~/Desktop/Project4-main
 pnpm install
 
 # 3. Push database schema (first time or after schema changes)
-pnpm --filter @workspace/db run push
+DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push
 
 # 4. Start the backend (in one terminal tab)
 PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
@@ -384,7 +384,7 @@ Make sure the backend server is running in a separate terminal on port 5000. The
 1. Check **both** terminals for error messages
 2. Stop both servers (`Ctrl + C`) and restart them
 3. Make sure you ran `pnpm install` in the project root
-4. Make sure you ran `pnpm --filter @workspace/db run push` to create the database tables
+4. Make sure you ran `DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push` to create the database tables
 
 ---
 

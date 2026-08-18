@@ -50,16 +50,17 @@ if command -v brew &>/dev/null; then
     echo "  ✓ Booted out stale launchd agent."
   fi
 
-  # Kill lingering postgres processes
+  # Kill lingering postgres processes (both user-level and system)
+  pkill -u "$(whoami)" -f postgres 2>/dev/null || true
   killall -9 postgres 2>/dev/null || true
   echo "  ✓ Killed lingering postgres processes."
 
-  # Remove orphaned PID lock file
-  PID_FILE="/opt/homebrew/var/postgresql@16/postmaster.pid"
-  if [ -f "$PID_FILE" ]; then
-    rm -f "$PID_FILE"
-    echo "  ✓ Removed orphaned postmaster.pid."
-  fi
+  # Remove orphaned PID lock file (Apple Silicon + Intel paths)
+  PID_FILE_ARM="/opt/homebrew/var/postgresql@16/postmaster.pid"
+  PID_FILE_X86="/usr/local/var/postgresql@16/postmaster.pid"
+  rm -f "$PID_FILE_ARM" 2>/dev/null || true
+  rm -f "$PID_FILE_X86" 2>/dev/null || true
+  echo "  ✓ Removed orphaned postmaster.pid."
 
   # Restart PostgreSQL
   brew services start postgresql@16

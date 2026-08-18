@@ -531,10 +531,12 @@ brew services stop postgresql@16
 launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/homebrew.mxcl.postgresql@16.plist 2>/dev/null
 
 <span class="comment"># 3. Kill any lingering postgres processes</span>
+pkill -u $(whoami) -f postgres 2>/dev/null
 killall -9 postgres 2>/dev/null
 
-<span class="comment"># 4. Remove the orphaned lock file</span>
+<span class="comment"># 4. Remove the orphaned lock file (Apple Silicon + Intel paths)</span>
 rm -f /opt/homebrew/var/postgresql@16/postmaster.pid
+rm -f /usr/local/var/postgresql@16/postmaster.pid
 
 <span class="comment"># 5. Restart PostgreSQL</span>
 brew services start postgresql@16

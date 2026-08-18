@@ -208,9 +208,23 @@
   .landing-page .resume-mini { width: min(190px, 55vw); }
   .landing-page .footer-top { grid-template-columns: 1fr; gap: 26px; }
 }
-@media (max-width: 400px) {
-  .landing-page .hero h1, .landing-page .process h2, .landing-page .template h2, .landing-page .closing h2 { font-size: clamp(38px, 12vw, 50px); }
-  .landing-page .note { margin-top: 34px; }
-  .landing-page .steps article { min-height: auto; padding-bottom: 56px; }
-  .landing-page .about-card p.quote { font-size: 21px; }
+@media (max-width: 480px) {
+  .landing-page .logo { font-size: 17px; letter-spacing: -.05em; }
+  .landing-page .logo > b { width: 26px; height: 26px; font-size: 16px; margin-right: 6px; }
+  .landing-page .editorial-badge { font-size: .8rem; padding: 5px 10px; }
+  .landing-page .save-login { padding: 6px 10px; font-size: 8px; }
+  .landing-page .button { padding: 12px 14px; font-size: 10px; gap: 12px; }
+  .landing-page .lead { font-size: 14px; }
+  .landing-page .nav-row { gap: 8px; }
+  .landing-page .container { width: calc(100% - 24px); }
+  .landing-page .closing > div { padding: 32px 18px; }
+  .landing-page .closing h2 { font-size: 36px; }
+  .landing-page .process, .landing-page .template, .landing-page .about { padding: 56px 0; }
+}
+@media (max-width: 360px) {
+  .landing-page .logo { font-size: 15px; }
+  .landing-page .logo > b { width: 22px; height: 22px; font-size: 14px; }
+  .landing-page .hero h1, .landing-page .process h2, .landing-page .template h2 { font-size: clamp(30px, 10vw, 40px); }
+  .landing-page .nav-row { gap: 6px; }
+  .landing-page .save-login { font-size: 7px; padding: 5px 8px; }
 }

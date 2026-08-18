@@ -5,7 +5,7 @@ import './styles/landing.css';
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>resume<span>redefined</span>
+      <b>↗</b>Resume<span>Redefined</span>
     </a>
   );
 }

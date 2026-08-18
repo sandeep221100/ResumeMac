@@ -277,6 +277,10 @@
 .resume-import-page .button-secondary:hover { color: var(--primary); background: var(--surface); }
 
 /* Responsive */
+@media (max-width: 850px) {
+  .resume-import-page .container { width: min(100% - 38px, 600px); }
+  .resume-import-page .nav { min-height: 80px; }
+}
 @media (max-width: 640px) {
   .resume-import-page .container { width: min(100% - 34px, 560px); }
   .resume-import-page .nav { min-height: 72px; }
@@ -290,4 +294,17 @@
   .resume-import-page .upload-result-actions { flex-direction: column; }
   .resume-import-page .upload-result-actions .button { width: 100%; }
   footer { flex-direction: column; gap: 10px; padding: 20px 0; text-align: center; }
+}
+@media (max-width: 480px) {
+  .resume-import-page .logo { font-size: 17px; letter-spacing: -.05em; }
+  .resume-import-page .logo > b { width: 26px; height: 26px; font-size: 16px; margin-right: 6px; }
+  .resume-import-page .container { width: calc(100% - 24px); }
+  .resume-import-page .nav { min-height: 64px; }
+  .resume-import-page .import-hero { padding: 24px 0 0; }
+  .resume-import-page .back-link { font-size: 10px; }
+}
+@media (max-width: 360px) {
+  .resume-import-page .logo { font-size: 15px; }
+  .resume-import-page .logo > b { width: 22px; height: 22px; font-size: 14px; }
+  .resume-import-page .import-option-card { padding: 14px; }
 }

@@ -494,7 +494,9 @@ PORT=5001 JWT_SECRET=... DATABASE_URL=... pnpm --filter @workspace/api-server ru
   <script>
     function copyCode(btn) {
       const pre = btn.parentElement.querySelector('pre');
-      const text = pre.innerText;
+      const clone = pre.cloneNode(true);
+      clone.querySelectorAll('.comment').forEach(el => el.remove());
+      const text = clone.innerText.split('\n').map(l => l.trimEnd()).filter(l => l.trim()).join('\n');
       navigator.clipboard.writeText(text).then(() => {
         btn.textContent = 'Copied!';
         btn.classList.add('copied');

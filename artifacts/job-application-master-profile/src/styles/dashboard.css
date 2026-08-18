@@ -167,3 +167,15 @@
 @media (max-width: 600px) {
   .dashboard-page .footer-top { grid-template-columns: 1fr; gap: 26px; }
 }
+@media (max-width: 480px) {
+  .dashboard-page .logo { font-size: 17px; letter-spacing: -.05em; }
+  .dashboard-page .logo > b { width: 26px; height: 26px; font-size: 16px; margin-right: 6px; }
+  .dashboard-page .container { width: calc(100% - 24px); }
+  .dashboard-page .save-login { padding: 6px 10px; font-size: 8px; }
+  .dashboard-page .nav-row { gap: 8px; }
+}
+@media (max-width: 360px) {
+  .dashboard-page .logo { font-size: 15px; }
+  .dashboard-page .logo > b { width: 22px; height: 22px; font-size: 14px; }
+  .dashboard-page .save-login { font-size: 7px; padding: 5px 8px; }
+}

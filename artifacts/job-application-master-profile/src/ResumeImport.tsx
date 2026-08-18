@@ -25,7 +25,7 @@ type ProcessingStatus = 'idle' | 'working' | 'done' | 'error';
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>resume<span>redefined</span>
+      <b>↗</b>Resume<span>Redefined</span>
     </a>
   );
 }

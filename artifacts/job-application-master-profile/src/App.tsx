@@ -28,6 +28,7 @@ import { masterProfileFromAnswers, normalizeAnswerMap, type MasterProfile } from
 import { useAuth } from './hooks/useAuth';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import StaticPages, { type StaticPageId } from './pages/StaticPages';
 import { createResume, updateResume, getResume } from './lib/api';
 
 type AnswerMap = Record<number, string>;
@@ -537,6 +538,7 @@ function App() {
   const [saveState, setSaveState] = useState<SaveState>('saved');
   const [resetOpen, setResetOpen] = useState(false);
   const [currentResumeId, setCurrentResumeId] = useState<string | null>(initialDraft.resumeId ?? null);
+  const [activeStaticPage, setActiveStaticPage] = useState<StaticPageId | null>(null);
   const serverSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const masterProfile = useMemo(() => masterProfileFromAnswers(answers), [answers]);
   // Which question set is active depends on which audience the person picked
@@ -760,11 +762,38 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [authLogout]);
 
+  // Navigate to a static/info page
+  const handleNavigateStatic = useCallback((page: StaticPageId) => {
+    setActiveStaticPage(page);
+    setShowLanding(false);
+    setShowLogin(false);
+    setShowDashboard(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const handleBackFromStatic = useCallback(() => {
+    setActiveStaticPage(null);
+    setShowLanding(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  if (activeStaticPage) {
+    return (
+      <StaticPages
+        page={activeStaticPage}
+        onBack={handleBackFromStatic}
+        onNavigate={(page) => setActiveStaticPage(page)}
+        onStartBuilding={handleStartBuilding}
+      />
+    );
+  }
+
   if (showLogin) {
     return (
       <LoginPage
         onSuccess={handleLoginSuccess}
         onBack={() => { setShowLogin(false); setShowLanding(true); }}
+        onNavigate={handleNavigateStatic}
       />
     );
   }
@@ -781,6 +810,7 @@ function App() {
         onContinue={handleContinueResume}
         onLogout={handleLogout}
         onBack={() => { setShowDashboard(false); setShowLanding(true); }}
+        onNavigate={handleNavigateStatic}
       />
     );
   }
@@ -796,6 +826,7 @@ function App() {
           setShowTemplateGallery(true);
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
+        onNavigate={handleNavigateStatic}
         onLogin={() => { setShowLanding(false); setShowLogin(true); }}
         onDashboard={() => { setShowLanding(false); setShowDashboard(true); }}
       />

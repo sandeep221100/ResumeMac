@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react';
 
 import './styles/landing.css';
+import type { StaticPageId } from './pages/StaticPages';
 
 function Logo() {
   return (
@@ -13,12 +14,14 @@ function Logo() {
 function Landing({
   onStart,
   onBrowseTemplates,
+  onNavigate,
   isAuthenticated,
   onLogin,
   onDashboard,
 }: {
   onStart: () => void;
   onBrowseTemplates?: () => void;
+  onNavigate?: (page: StaticPageId) => void;
   isAuthenticated?: boolean;
   onLogin?: () => void;
   onDashboard?: () => void;
@@ -52,6 +55,7 @@ function Landing({
           <div className="nav-row">
             <a className="save-login" href="#how">Live Preview</a>
             <a className="save-login" href="#" onClick={(e) => { e.preventDefault(); onBrowseTemplates?.(); }}>Templates</a>
+            <a className="save-login" href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('how-it-works'); }}>How It Works</a>
           </div>
         </nav>
 
@@ -309,35 +313,35 @@ function Landing({
               <h4>PRODUCT</h4>
               <ul>
                 <li><a href="#" onClick={start}>Resume Builder</a></li>
-                <li><a href="#templates">Templates</a></li>
-                <li><a href="#how">How It Works</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onBrowseTemplates?.(); }}>Templates</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('how-it-works'); }}>How It Works</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>COMPANY</h4>
               <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="mailto:vestorywealth@gmail.com">Contact</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('about-us'); }}>About Us</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }}>Contact</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>RESOURCES</h4>
               <ul>
-                <li><span>Resume Tips</span></li>
-                <li><span>ATS Resume Guide</span></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('resume-tips'); }}>Resume Tips</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('ats-resume-guide'); }}>ATS Resume Guide</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>LEGAL</h4>
               <ul>
-                <li><span>Privacy Policy</span></li>
-                <li><span>Terms of Service</span></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('privacy-policy'); }}>Privacy Policy</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('terms-of-service'); }}>Terms of Service</a></li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
             <small>© 2026 Resume Redefined</small>
-            <a href="mailto:vestorywealth@gmail.com">vestorywealth@gmail.com</a>
+            <a href="mailto:resumeredefined@gmail.com">resumeredefined@gmail.com</a>
           </div>
         </footer>
       </main>

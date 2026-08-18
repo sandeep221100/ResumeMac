@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
 import '../styles/login.css';
+import type { StaticPageId } from './StaticPages';
 
 function Logo() {
   return (
@@ -14,9 +15,11 @@ function Logo() {
 export default function LoginPage({
   onSuccess,
   onBack,
+  onNavigate,
 }: {
   onSuccess: () => void;
   onBack: () => void;
+  onNavigate?: (page: StaticPageId) => void;
 }) {
   const { login, signup, loading, error, clearError } = useAuth();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -126,35 +129,35 @@ export default function LoginPage({
             <div className="footer-col">
               <h4>PRODUCT</h4>
               <ul>
-                <li><a href="#">Resume Builder</a></li>
-                <li><a href="#">Templates</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onBack(); }}>Resume Builder</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('how-it-works'); }}>How It Works</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>COMPANY</h4>
               <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="mailto:vestorywealth@gmail.com">Contact</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('about-us'); }}>About Us</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('contact'); }}>Contact</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>RESOURCES</h4>
               <ul>
-                <li><span>Resume Tips</span></li>
-                <li><span>ATS Resume Guide</span></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('resume-tips'); }}>Resume Tips</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('ats-resume-guide'); }}>ATS Resume Guide</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>LEGAL</h4>
               <ul>
-                <li><span>Privacy Policy</span></li>
-                <li><span>Terms of Service</span></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('privacy-policy'); }}>Privacy Policy</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate?.('terms-of-service'); }}>Terms of Service</a></li>
               </ul>
             </div>
           </div>
           <div className="footer-bottom">
             <small>© 2026 Resume Redefined</small>
-            <a href="mailto:vestorywealth@gmail.com">vestorywealth@gmail.com</a>
+            <a href="mailto:resumeredefined@gmail.com">resumeredefined@gmail.com</a>
           </div>
         </footer>
       </main>

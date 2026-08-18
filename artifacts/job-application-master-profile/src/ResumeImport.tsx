@@ -305,7 +305,7 @@ function ResumeImport({
               <h4 style={{ margin: '0 0 14px', font: '700 10px "DM Mono"', letterSpacing: '.1em', color: '#315a7d' }}>COMPANY</h4>
               <ul style={{ display: 'grid', gap: '10px', margin: 0, padding: 0, listStyle: 'none' }}>
                 <li><a href="#" style={{ fontSize: '12px', color: 'var(--muted)' }}>About Us</a></li>
-                <li><a href="mailto:vestorywealth@gmail.com" style={{ fontSize: '12px', color: 'var(--muted)' }}>Contact</a></li>
+                <li><a href="mailto:resumeredefined@gmail.com" style={{ fontSize: '12px', color: 'var(--muted)' }}>Contact</a></li>
               </ul>
             </div>
             <div>
@@ -325,7 +325,7 @@ function ResumeImport({
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', justifyContent: 'space-between', paddingTop: '22px', fontSize: '11px', color: 'var(--muted)' }}>
             <small>&copy; 2026 Resume Redefined</small>
-            <a href="mailto:vestorywealth@gmail.com" style={{ fontWeight: 700, color: 'var(--stroke-main)' }}>vestorywealth@gmail.com</a>
+            <a href="mailto:resumeredefined@gmail.com" style={{ fontWeight: 700, color: 'var(--stroke-main)' }}>resumeredefined@gmail.com</a>
           </div>
         </footer>
       </main>

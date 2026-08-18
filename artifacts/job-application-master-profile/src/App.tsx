@@ -881,7 +881,7 @@ function App() {
           >
             <span className="brand-mark" aria-hidden="true">↗</span>
             <span className="brand-copy">
-              <span className="brand-name">CareerCanvas</span>
+              <span className="brand-name">Resume Redefined</span>
               <span className="brand-kicker">Build once, reuse often</span>
             </span>
           </button>

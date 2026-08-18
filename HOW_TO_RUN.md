@@ -1,5 +1,5 @@
 
-# CareerCanvas — Setup & Run Guide
+# Resume Redefined — Setup & Run Guide
 
 A step-by-step guide for complete beginners. No prior technical knowledge needed.
 
@@ -7,7 +7,7 @@ A step-by-step guide for complete beginners. No prior technical knowledge needed
 
 ## What Is This Project?
 
-**CareerCanvas** is a full-stack resume builder web application. Users create an account, answer a guided questionnaire, choose from **40 professionally designed templates**, and download their resume as PDF or DOCX. Existing resumes can be uploaded (PDF/DOCX) to auto-fill the questionnaire.
+**Resume Redefined** is a full-stack resume builder web application. Users create an account, answer a guided questionnaire, choose from **40 professionally designed templates**, and download their resume as PDF or DOCX. Existing resumes can be uploaded (PDF/DOCX) to auto-fill the questionnaire.
 
 The project uses:
 
@@ -64,7 +64,7 @@ Use any PostgreSQL-compatible service (Neon, Supabase, Railway, etc.) and copy t
 After installing locally, create a database for the project:
 
 ```bash
-createdb careercanvas    # or: psql -c "CREATE DATABASE careercanvas;"
+createdb resumeredefined    # or: psql -c "CREATE DATABASE resumeredefined;"
 ```
 
 ---
@@ -75,7 +75,7 @@ The backend needs three environment variables. Create a file named `.env` in the
 
 ```env
 # PostgreSQL connection string
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careercanvas
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined
 
 # Secret key for signing JWT tokens — use any long random string
 JWT_SECRET=change-me-to-a-long-random-secret
@@ -122,7 +122,7 @@ Open a **new terminal tab/window** and run:
 
 ```bash
 # From the project root:
-PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careercanvas pnpm --filter @workspace/api-server run dev
+PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 ```
 
 > Or, if you created the `.env` file, your shell may auto-load it (depending on your setup). On Replit or platforms with built-in Secrets, just set the values there and run:
@@ -188,7 +188,7 @@ pnpm install
 pnpm --filter @workspace/db run push
 
 # 4. Start the backend (in one terminal tab)
-PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/careercanvas pnpm --filter @workspace/api-server run dev
+PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres:postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 
 # 5. Start the frontend (in another terminal tab)
 pnpm --filter @workspace/job-application-master-profile run dev
@@ -200,7 +200,7 @@ Then open **http://localhost:5173/** in your browser.
 
 ## The Full User Flow
 
-1. **Landing Page** — Learn about CareerCanvas, see the 4-step process
+1. **Landing Page** — Learn about Resume Redefined, see the 4-step process
 2. **Sign Up / Log In** — Create an account or sign in to an existing one
 3. **Dashboard** — See all your resumes, create new ones, or continue editing
 4. **Role Selection** — Pick a career category (Students, Freshers, Experienced, Career Switchers, Freelance)
@@ -244,7 +244,7 @@ Then open **http://localhost:5173/** in your browser.
 - **40 templates** — Config-driven: each template is a declarative `TemplateConfig` object with layout, typography, and color settings
 - **Dual persistence** — Data is saved to the server (debounced, best-effort) AND to `localStorage` as a fallback
 - **Template persistence** — The selected template ID is stored in the database `template_id` column and synced to the frontend
-- **CareerCanvas design system** — Thick borders, offset box-shadows, Space Grotesk / DM Mono / DM Sans fonts, CSS custom properties defined in `theme.css`
+- **Resume Redefined design system** — Thick borders, offset box-shadows, Space Grotesk / DM Mono / DM Sans fonts, CSS custom properties defined in `theme.css`
 
 ---
 
@@ -337,7 +337,7 @@ Install Node.js from https://nodejs.org/
 
 The backend cannot connect to PostgreSQL. Make sure:
 1. PostgreSQL is running (`pg_isready` or `brew services list`)
-2. You created the database (`createdb careercanvas`)
+2. You created the database (`createdb resumeredefined`)
 3. `DATABASE_URL` is set correctly in your environment or `.env` file
 
 ### "JWT_SECRET environment variable is required"

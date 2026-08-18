@@ -25,7 +25,7 @@ type ProcessingStatus = 'idle' | 'working' | 'done' | 'error';
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>career<span>canvas</span>
+      <b>↗</b>resume<span>redefined</span>
     </a>
   );
 }
@@ -324,7 +324,7 @@ function ResumeImport({
             </div>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center', justifyContent: 'space-between', paddingTop: '22px', fontSize: '11px', color: 'var(--muted)' }}>
-            <small>&copy; 2026 CareerCanvas</small>
+            <small>&copy; 2026 Resume Redefined</small>
             <a href="mailto:vestorywealth@gmail.com" style={{ fontWeight: 700, color: 'var(--stroke-main)' }}>vestorywealth@gmail.com</a>
           </div>
         </footer>

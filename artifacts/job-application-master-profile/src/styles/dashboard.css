@@ -1,4 +1,4 @@
-/* Dashboard page styles — scoped under .dashboard-page, uses CareerCanvas design tokens */
+/* Dashboard page styles — scoped under .dashboard-page, uses Resume Redefined design tokens */
 
 .dashboard-page * { box-sizing: border-box; }
 .dashboard-page { scroll-behavior: smooth; margin: 0; color: var(--stroke-main); font-family: "DM Sans", sans-serif; }

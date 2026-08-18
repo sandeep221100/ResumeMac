@@ -1,4 +1,4 @@
-/* Login/Signup page styles — scoped under .login-page, uses CareerCanvas design tokens */
+/* Login/Signup page styles — scoped under .login-page, uses Resume Redefined design tokens */
 
 .login-page * { box-sizing: border-box; }
 .login-page { scroll-behavior: smooth; margin: 0; color: var(--stroke-main); font-family: "DM Sans", sans-serif; }

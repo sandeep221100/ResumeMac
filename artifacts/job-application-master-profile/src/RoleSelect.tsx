@@ -67,7 +67,7 @@ export function roleLabel(id: string | null | undefined): string | null {
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>career<span>canvas</span>
+      <b>↗</b>resume<span>redefined</span>
     </a>
   );
 }
@@ -142,7 +142,7 @@ function RoleSelect({
         <footer className="container">
           <Logo />
           <span>Build your career story with intention.</span>
-          <small>© 2026 CareerCanvas</small>
+          <small>© 2026 Resume Redefined</small>
         </footer>
       </main>
     </div>

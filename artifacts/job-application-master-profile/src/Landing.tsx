@@ -5,7 +5,7 @@ import './styles/landing.css';
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>career<span>canvas</span>
+      <b>↗</b>resume<span>redefined</span>
     </a>
   );
 }
@@ -251,7 +251,7 @@ function Landing({
             <div>
               <p className="kicker">&mdash; ABOUT THE PRODUCT</p>
               <h2>
-                What CareerCanvas
+                What Resume Redefined
                 <br />
                 actually does.
               </h2>
@@ -275,7 +275,7 @@ function Landing({
                 <mark>Sharper</mark> telling.
               </p>
               <p className="lead small" style={{ margin: 0 }}>
-                Your experience is the source of truth. CareerCanvas helps you present it clearly, for the role you&apos;re going after next.
+                Your experience is the source of truth. Resume Redefined helps you present it clearly, for the role you&apos;re going after next.
               </p>
             </div>
           </div>
@@ -334,7 +334,7 @@ function Landing({
             </div>
           </div>
           <div className="footer-bottom">
-            <small>© 2026 CareerCanvas</small>
+            <small>© 2026 Resume Redefined</small>
             <a href="mailto:vestorywealth@gmail.com">vestorywealth@gmail.com</a>
           </div>
         </footer>

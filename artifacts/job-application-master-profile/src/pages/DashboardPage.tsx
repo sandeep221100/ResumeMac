@@ -8,7 +8,7 @@ import '../styles/dashboard.css';
 function Logo() {
   return (
     <a className="logo" href="#top">
-      <b>↗</b>career<span>canvas</span>
+      <b>↗</b>resume<span>redefined</span>
     </a>
   );
 }
@@ -217,7 +217,7 @@ export default function DashboardPage({
             </div>
           </div>
           <div className="footer-bottom">
-            <small>© 2026 CareerCanvas</small>
+            <small>© 2026 Resume Redefined</small>
             <a href="mailto:vestorywealth@gmail.com">vestorywealth@gmail.com</a>
           </div>
         </footer>

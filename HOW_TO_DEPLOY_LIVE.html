@@ -255,7 +255,7 @@ pnpm --filter @workspace/db run push</code></pre></div>
             <table>
               <thead><tr><th>Variable</th><th>Value</th></tr></thead>
               <tbody>
-                <tr><td><code>PORT</code></td><td><code>5000</code></td></tr>
+                <tr><td><code>PORT</code></td><td><code>5001</code></td></tr>
                 <tr><td><code>NODE_ENV</code></td><td><code>production</code></td></tr>
                 <tr><td><code>JWT_SECRET</code></td><td>A long random string (generate below)</td></tr>
                 <tr><td><code>DATABASE_URL</code></td><td>Your Neon connection string from Step 3</td></tr>
@@ -325,12 +325,12 @@ Start Command: node --enable-source-maps ./dist/index.mjs</code></pre></div>
           <div class="step-num">13</div>
           <div class="step-body">
             <h3>Update the API proxy</h3>
-            <p>The frontend currently proxies <code>/api</code> to <code>localhost:5000</code> (for local dev). For production, you need to point it to your Railway backend.</p>
+            <p>The frontend currently proxies <code>/api</code> to <code>localhost:5001</code> (for local dev). For production, you need to point it to your Railway backend.</p>
             <p><strong>Option A — Environment variable (recommended):</strong></p>
             <p>Edit <code>artifacts/job-application-master-profile/vite.config.ts</code> and change the proxy target to use an environment variable:</p>
             <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>proxy: {
   '/api': {
-    target: process.env.VITE_API_URL ?? 'http://localhost:5000',
+    target: process.env.VITE_API_URL ?? 'http://localhost:5001',
     changeOrigin: true,
   },
 },</code></pre></div>
@@ -501,7 +501,7 @@ git push origin main</code></pre></div>
 
       <div class="card">
         <h3>API calls return 404 or fail</h3>
-        <p>The frontend is trying to call <code>localhost:5000</code> instead of your live backend. Make sure you set the <code>VITE_API_URL</code> environment variable in Vercel and redeploy.</p>
+        <p>The frontend is trying to call <code>localhost:5001</code> instead of your live backend. Make sure you set the <code>VITE_API_URL</code> environment variable in Vercel and redeploy.</p>
       </div>
 
       <div class="card">

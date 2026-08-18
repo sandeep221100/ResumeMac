@@ -26,9 +26,15 @@ app.use(
     },
   }),
 );
+// Allow the frontend dev server and any explicit FRONTEND_URL.
+// In dev (no FRONTEND_URL), allow all origins so the Vite proxy works.
+const corsOrigin = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL
+  : true;
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL ?? true,
+    origin: corsOrigin,
     credentials: true,
   }),
 );

@@ -307,13 +307,13 @@ brew services start postgresql@16</code></pre></div>
         <h3>Terminal Tab 1 — Backend (API Server)</h3>
         <p>The <strong>backend</strong> is the brain of the app — it handles logins, saves data, and talks to the database. It runs in one Terminal tab and must stay open.</p>
         <p>Make sure you're in the project folder, then copy and paste this <strong>entire block</strong> into Terminal:</p>
-        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5000 \
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5001 \
 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined \
 pnpm --filter @workspace/api-server run dev</code></pre></div>
-        <p><strong>What you should see:</strong> After a few seconds, text like <code>Server listening {"port":5000}</code>. That means it's working. <strong>Do not close this tab.</strong></p>
-        <p><strong>If you see <code>EADDRINUSE: address already in use</code>:</strong> Port 5000 is busy. Run this in a new tab to fix it, then try again:</p>
-        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>lsof -ti :5000 | xargs kill -9</code></pre></div>
+        <p><strong>What you should see:</strong> After a few seconds, text like <code>Server listening {"port":5001}</code>. That means it's working. <strong>Do not close this tab.</strong></p>
+        <p><strong>If you see <code>EADDRINUSE: address already in use</code>:</strong> Port 5001 is busy. Run this in a new tab to fix it, then try again:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>lsof -ti :5001 | xargs kill -9</code></pre></div>
         <div class="note">
           If you're using a <strong>cloud database</strong> (Neon, Supabase), replace the <code>DATABASE_URL</code> value with your cloud connection string.
         </div>
@@ -366,7 +366,7 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
 
       <div class="card card-accent-blue">
         <h3>2. Start the backend (Tab 1)</h3>
-        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5000 \
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>PORT=5001 \
 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined \
 pnpm --filter @workspace/api-server run dev</code></pre></div>
@@ -382,6 +382,13 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
 
       <div class="note">
         <strong>To stop the app:</strong> Click inside each Terminal tab and press <strong>Ctrl + C</strong>. That stops the server in that tab.
+      </div>
+
+      <div class="card">
+        <h3>Problems? Run the cleanup script</h3>
+        <p>If anything goes wrong (port already in use, PostgreSQL errors, stale services), run this one command to fix everything:</p>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>bash cleanup.sh</code></pre></div>
+        <p>It automatically kills stuck processes, fixes PostgreSQL, and gets you ready to start fresh.</p>
       </div>
     </section>
 
@@ -417,7 +424,7 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
         <thead><tr><th>Layer</th><th>Technology</th><th>Port</th></tr></thead>
         <tbody>
           <tr><td>Frontend</td><td>React 19 + Vite 7 (SPA)</td><td>5173</td></tr>
-          <tr><td>Backend</td><td>Express 5 REST API</td><td>5000</td></tr>
+          <tr><td>Backend</td><td>Express 5 REST API</td><td>5001</td></tr>
           <tr><td>Database</td><td>PostgreSQL + Drizzle ORM</td><td>5432</td></tr>
           <tr><td>Auth</td><td>JWT + bcrypt + httpOnly cookies</td><td>—</td></tr>
           <tr><td>Templates</td><td>40 config-driven resume templates</td><td>—</td></tr>
@@ -425,7 +432,7 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
       </table>
 
       <div class="card">
-        <h3>API Endpoints (Backend on port 5000)</h3>
+        <h3>API Endpoints (Backend on port 5001)</h3>
         <table>
           <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
           <tbody>
@@ -452,7 +459,7 @@ pnpm --filter @workspace/job-application-master-profile run dev</code></pre></di
         <h3>Start Everything</h3>
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># Tab 1 — Backend:</span>
 cd ~/Desktop/ResumeMac
-PORT=5000 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
+PORT=5001 JWT_SECRET=my-super-secret-key-change-this-to-anything-long \
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined \
 pnpm --filter @workspace/api-server run dev</code></pre></div>
         <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># Tab 2 — Frontend (new tab):</span>
@@ -539,9 +546,10 @@ pg_isready</code></pre></div>
       </div>
 
       <div class="card">
-        <h3>"Port 5000 already in use"</h3>
-        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># Find what's using port 5000:</span>
-lsof -i :5000
+        <h3>"Port 5001 already in use"</h3>
+                <div class="note">On macOS, port 5000 is reserved by AirPlay Receiver. That's why we use port <strong>5001</strong> instead.</div>
+        <div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code><span class="comment"># Find what's using port 5001:</span>
+lsof -i :5001
 
 <span class="comment"># Or use port 5001 instead:</span>
 PORT=5001 JWT_SECRET=... DATABASE_URL=... pnpm --filter @workspace/api-server run dev</code></pre></div>

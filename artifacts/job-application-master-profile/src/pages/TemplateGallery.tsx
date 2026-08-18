@@ -26,6 +26,18 @@ function categoryCount(category: TemplateCategory): number {
   return templatesByCategory(category).length;
 }
 
+// Realistic sample resume data for preview thumbnails
+const SAMPLE = {
+  name: 'Alex Johnson',
+  title: 'Senior Software Engineer',
+  contact: 'alex@email.com · (555) 123-4567 · San Francisco, CA',
+  sections: [
+    { heading: 'EXPERIENCE', lines: ['Led a team of 6 engineers at FinTech Corp, delivering…', 'Built microservices handling 2M+ daily requests…', 'Mentored 3 junior developers through promotion cycles…'] },
+    { heading: 'EDUCATION', lines: ['B.S. Computer Science — Stanford University, 2018'] },
+    { heading: 'SKILLS', lines: ['TypeScript · React · Node.js · PostgreSQL · AWS · Docker'] },
+  ],
+};
+
 function TemplateCard({
   config,
   selected,
@@ -51,6 +63,20 @@ function TemplateCard({
         ? 'Geometric'
         : 'Sans';
 
+  const isTwoCol = config.layout.type === 'two-column-left' || config.layout.type === 'two-column-right';
+  const accent = config.colors.accent;
+  const text = config.colors.text;
+  const muted = config.colors.muted ?? '#666';
+  const heading = config.colors.headingColor ?? accent;
+  const sidebarBg = config.colors.sidebarBg ?? '#f4f4f4';
+  const fontFamily = config.typography.headingFont === 'serif'
+    ? "'Georgia', serif"
+    : config.typography.headingFont === 'monospace'
+      ? "'Courier New', monospace"
+      : config.typography.headingFont === 'geometric-sans'
+        ? "'Calibri', sans-serif"
+        : "'Arial', sans-serif";
+
   return (
     <button
       type="button"
@@ -58,25 +84,56 @@ function TemplateCard({
       onClick={() => onSelect(config.metadata.id)}
       data-testid={`template-card-${config.metadata.id}`}
     >
-      {/* Mini preview thumbnail */}
-      <div className="template-card-preview" style={{ '--accent': config.colors.accent, '--font': config.typography.headingFont === 'serif' ? 'Georgia, serif' : 'Calibri, Arial, sans-serif' } as Record<string, string>}>
-        <div className="template-mini">
-          {config.accent.type === 'vertical-bar' && <div className="template-mini-bar" style={{ background: config.colors.accent }} />}
-          {config.accent.type === 'tinted-sidebar' && <div className="template-mini-sidebar" style={{ background: config.colors.sidebarBg ?? '#f0f0f0' }} />}
-          <div className="template-mini-content">
-            <div className="template-mini-name" style={{ color: config.accent.type === 'color-text' || config.accent.type === 'underline' ? config.colors.accent : config.colors.text }}>
-              Your Name
+      {/* Realistic mini resume preview */}
+      <div className="template-card-preview" style={{ fontFamily, fontSize: '6.5px', lineHeight: '1.35', color: text }}>
+        {isTwoCol ? (
+          <div style={{ display: 'flex', height: '100%' }}>
+            <div style={{ width: '35%', background: sidebarBg, padding: '8px 6px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ fontWeight: 700, fontSize: '8px', color: accent, marginBottom: '2px' }}>{SAMPLE.name}</div>
+              <div style={{ fontSize: '5.5px', color: muted }}>{SAMPLE.title}</div>
+              <div style={{ borderTop: `1px solid ${muted}40`, marginTop: '3px', paddingTop: '3px' }}>
+                <div style={{ fontWeight: 600, fontSize: '5.5px', color: heading, marginBottom: '1px' }}>CONTACT</div>
+                <div style={{ fontSize: '5px', color: muted }}>alex@email.com</div>
+                <div style={{ fontSize: '5px', color: muted }}>(555) 123-4567</div>
+                <div style={{ fontSize: '5px', color: muted }}>San Francisco, CA</div>
+              </div>
+              <div style={{ marginTop: '3px' }}>
+                <div style={{ fontWeight: 600, fontSize: '5.5px', color: heading, marginBottom: '1px' }}>SKILLS</div>
+                <div style={{ fontSize: '5px', color: text }}>TypeScript · React</div>
+                <div style={{ fontSize: '5px', color: text }}>Node.js · PostgreSQL</div>
+                <div style={{ fontSize: '5px', color: text }}>AWS · Docker</div>
+              </div>
             </div>
-            <div className="template-mini-title" style={{ color: config.colors.accent }}>Target Role</div>
-            <div className="template-mini-contact">email · phone · city</div>
-            <div className="template-mini-divider" style={{ background: config.colors.muted ?? '#ccc' }} />
-            <div className="template-mini-section" style={{ color: config.colors.headingColor ?? config.colors.accent }}>EXPERIENCE</div>
-            <div className="template-mini-line" />
-            <div className="template-mini-line short" />
-            <div className="template-mini-section" style={{ color: config.colors.headingColor ?? config.colors.accent }}>SKILLS</div>
-            <div className="template-mini-line" />
+            <div style={{ flex: 1, padding: '8px 6px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {config.accent.type === 'vertical-bar' && <div style={{ width: '3px', height: '100%', background: accent, position: 'absolute', left: '35%', top: 0 }} />}
+              {SAMPLE.sections.slice(0, 2).map((s) => (
+                <div key={s.heading}>
+                  <div style={{ fontWeight: 600, fontSize: '5.5px', color: heading, borderBottom: `0.5px solid ${heading}40`, paddingBottom: '1px', marginBottom: '2px' }}>{s.heading}</div>
+                  {s.lines.map((line, i) => (
+                    <div key={i} style={{ fontSize: '5px', color: text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{line}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div style={{ padding: '8px 6px', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+            {config.accent.type === 'vertical-bar' && <div style={{ width: '3px', background: accent, position: 'absolute', left: 0, top: 0, height: '100%' }} />}
+            <div style={{ fontWeight: 700, fontSize: '9px', color: config.accent.type === 'color-text' || config.accent.type === 'underline' ? accent : text }}>{SAMPLE.name}</div>
+            <div style={{ fontSize: '6px', color: accent, fontWeight: 500 }}>{SAMPLE.title}</div>
+            <div style={{ fontSize: '5px', color: muted }}>{SAMPLE.contact}</div>
+            {config.accent.type === 'underline' && <div style={{ height: '1.5px', background: accent, marginTop: '1px' }} />}
+            {config.accent.type !== 'underline' && <div style={{ height: '0.5px', background: `${muted}50`, marginTop: '1px' }} />}
+            {SAMPLE.sections.map((s) => (
+              <div key={s.heading}>
+                <div style={{ fontWeight: 600, fontSize: '5.5px', color: heading, textTransform: 'uppercase' as const, borderBottom: `0.5px solid ${heading}30`, paddingBottom: '0.5px', marginBottom: '1.5px' }}>{s.heading}</div>
+                {s.lines.slice(0, 2).map((line, i) => (
+                  <div key={i} style={{ fontSize: '5px', color: text, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>• {line}</div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Card body */}

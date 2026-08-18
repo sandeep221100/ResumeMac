@@ -91,7 +91,7 @@ DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined
 JWT_SECRET=change-me-to-a-long-random-secret
 
 # Port the API server listens on
-PORT=5000
+PORT=5001
 ```
 
 > **Tip:** You can generate a strong secret with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
@@ -134,7 +134,7 @@ Open a **new terminal tab/window** and run:
 
 ```bash
 # From the project root:
-PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
+PORT=5001 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 ```
 
 > Or, if you created the `.env` file, your shell may auto-load it (depending on your setup). On Replit or platforms with built-in Secrets, just set the values there and run:
@@ -145,10 +145,10 @@ PORT=5000 JWT_SECRET=change-me-to-a-long-random-secret DATABASE_URL=postgresql:/
 You should see:
 
 ```
-Server listening {"port":5000}
+Server listening {"port":5001}
 ```
 
-The API is now running at **http://localhost:5000**.
+The API is now running at **http://localhost:5001**.
 
 ### Step 5: Start the Frontend Dev Server
 
@@ -175,7 +175,7 @@ Both servers must be running simultaneously:
 | Service   | URL                      | Terminal |
 |-----------|--------------------------|----------|
 | Frontend  | http://localhost:5173    | Tab 1    |
-| Backend   | http://localhost:5000    | Tab 2    |
+| Backend   | http://localhost:5001    | Tab 2    |
 
 The Vite dev server automatically proxies `/api/*` requests from the frontend to the backend, so everything works on a single origin.
 
@@ -200,7 +200,7 @@ pnpm install
 DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/db run push
 
 # 4. Start the backend (in one terminal tab)
-PORT=5000 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
+PORT=5001 JWT_SECRET=your-secret DATABASE_URL=postgresql://postgres@localhost:5432/resumeredefined pnpm --filter @workspace/api-server run dev
 
 # 5. Start the frontend (in another terminal tab)
 pnpm --filter @workspace/job-application-master-profile run dev
@@ -230,12 +230,12 @@ Then open **http://localhost:5173/** in your browser.
 ┌─────────────────────────────────────────────────────────┐
 │                    Browser (port 5173)                   │
 │  React 19 SPA — state-based navigation (no URL router)  │
-│  Vite dev server proxies /api/* → localhost:5000         │
+│  Vite dev server proxies /api/* → localhost:5001         │
 └───────────────────────┬─────────────────────────────────┘
                         │ fetch('/api/...')
                         ▼
 ┌─────────────────────────────────────────────────────────┐
-│                  API Server (port 5000)                  │
+│                  API Server (port 5001)                  │
 │  Express 5 · REST API · JWT auth · httpOnly cookies     │
 │  Routes: /api/auth/* , /api/resumes/*                   │
 └───────────────────────┬─────────────────────────────────┘
@@ -381,11 +381,19 @@ Set the `JWT_SECRET` environment variable before starting the backend. Use any l
 
 ### "PORT environment variable is required"
 
-Set `PORT=5000` before starting the backend server.
+Set `PORT=5001` before starting the backend server.
 
-### Port 5000 or 5173 is already in use
+### Port 5001 or 5173 is already in use
 
-Another program is using that port. Either close it, or use a different port:
+> **Why 5001 instead of 5000?** macOS AirPlay Receiver occupies port 5000 by default. That's why this project uses port 5001.
+
+Another program is using that port. Either close it, or run the cleanup script:
+
+```bash
+bash cleanup.sh
+```
+
+Or use a different port:
 
 ```bash
 # Backend on port 5001:
@@ -412,7 +420,7 @@ This project only works with pnpm. Use `pnpm` commands, not `npm`.
 
 ### Frontend loads but API calls fail (404 or network errors)
 
-Make sure the backend server is running in a separate terminal on port 5000. The Vite proxy forwards `/api/*` to the backend — if the backend is not running, requests will fail.
+Make sure the backend server is running in a separate terminal on port 5001. The Vite proxy forwards `/api/*` to the backend — if the backend is not running, requests will fail.
 
 ### The page is blank or shows an error
 

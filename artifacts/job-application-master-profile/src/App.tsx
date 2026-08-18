@@ -532,6 +532,7 @@ function App() {
   const [review, setReview] = useState(false);
   const [showResume, setShowResume] = useState(false);
   const [showJobSearchGate, setShowJobSearchGate] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<'pdf' | 'word' | 'csv' | null>(null);
   const [jobSearchOptIn, setJobSearchOptIn] = useState<JobSearchOptIn>(initialDraft.jobSearchOptIn ?? null);
   const [resumeOriginReview, setResumeOriginReview] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
@@ -689,25 +690,25 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Auth-gated "start building" handler
+  // Start building — no auth gate, login only required on download
   const handleStartBuilding = useCallback(() => {
-    if (isAuthenticated) {
-      setShowLanding(false);
-      setShowRoleSelect(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setShowLanding(false);
-      setShowLogin(true);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [isAuthenticated]);
-
-  // After login success -> go to role select
-  const handleLoginSuccess = useCallback(() => {
-    setShowLogin(false);
+    setShowLanding(false);
     setShowRoleSelect(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
+  // After login success -> return to where the user was (builder or role select)
+  const handleLoginSuccess = useCallback(() => {
+    setShowLogin(false);
+    if (pendingDownload) {
+      // User was trying to download — go back to resume builder
+      setPendingDownload(null);
+      setShowResume(true);
+    } else {
+      setShowRoleSelect(true);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pendingDownload]);
 
   // Create a server-side resume and start the questionnaire
   const handleCreateNewResume = useCallback(async () => {
@@ -776,6 +777,19 @@ function App() {
     setShowLanding(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
+
+  // Gate downloads behind auth — if not logged in, show login then return to builder
+  const gateDownload = useCallback((type: 'pdf' | 'word' | 'csv', action: () => void) => {
+    if (isAuthenticated) {
+      action();
+    } else {
+      setPendingDownload(type);
+      setShowResume(false);
+      setReview(false);
+      setShowLogin(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isAuthenticated]);
 
   if (activeStaticPage) {
     return (
@@ -873,13 +887,9 @@ function App() {
           } catch { /* ignore */ }
           setShowTemplateGallery(false);
           if (templateBrowseMode) {
-            // Browse mode: check auth before proceeding to build
+            // Browse mode: go to role select (no auth gate)
             setTemplateBrowseMode(false);
-            if (isAuthenticated) {
-              setShowRoleSelect(true);
-            } else {
-              setShowLogin(true);
-            }
+            setShowRoleSelect(true);
           } else {
             setShowResumeImport(true);
           }
@@ -962,7 +972,8 @@ function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onOpenAllPages={() => setPagesOpen(true)}
-            onDownloadCsv={() => downloadCsv(answers)}
+            onDownloadCsv={() => gateDownload('csv', () => downloadCsv(answers))}
+            onGateDownload={gateDownload}
           />
         ) : review ? (
           <ReviewScreen
@@ -975,7 +986,7 @@ function App() {
               setReview(false);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            onDownload={() => downloadCsv(answers)}
+            onDownload={() => gateDownload('csv', () => downloadCsv(answers))}
             onStartOver={() => setResetOpen(true)}
             onViewResume={() => {
               setResumeOriginReview(true);
@@ -984,14 +995,14 @@ function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onOpenAllPages={() => setPagesOpen(true)}
-            onDownloadPdf={() => {
+            onDownloadPdf={() => gateDownload('pdf', () => {
               const settings = defaultResumeSettings(masterProfile);
               void downloadResumePdf(mapResume(masterProfile, settings), 'resume', settings);
-            }}
-            onDownloadWord={() => {
+            })}
+            onDownloadWord={() => gateDownload('word', () => {
               const settings = defaultResumeSettings(masterProfile);
               void downloadResumeDocx(mapResume(masterProfile, settings), 'resume', settings);
-            }}
+            })}
           />
         ) : showJobSearchGate ? (
           <JobSearchGate

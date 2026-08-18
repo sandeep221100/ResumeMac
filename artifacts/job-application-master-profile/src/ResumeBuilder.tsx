@@ -141,11 +141,13 @@ export default function ResumeBuilder({
   onBack,
   onOpenAllPages,
   onDownloadCsv,
+  onGateDownload,
 }: {
   profile: MasterProfile;
   onBack: () => void;
   onOpenAllPages: () => void;
   onDownloadCsv: () => void;
+  onGateDownload?: (type: 'pdf' | 'word' | 'csv', action: () => void) => void;
 }) {
   const [mode, setMode] = useState<'resume' | 'cv'>('resume');
   const [settings, setSettings] = useState<ResumeSettings>(() => loadSettings(profile));
@@ -325,8 +327,14 @@ export default function ResumeBuilder({
               <button type="button" className={mode === 'cv' ? 'active' : ''} onClick={() => { setMode('cv'); setPage(0); }} data-testid="button-document-cv"><FileText size={15} /> CV</button>
             </div>
             <div className="export-actions">
-              <button type="button" className="button button-secondary" aria-label="Download PDF" title="Download PDF" onClick={() => void downloadResumePdf(doc, mode, settings)} data-testid="button-download-pdf"><Download size={14} aria-hidden="true" /> PDF</button>
-              <button type="button" className="button button-secondary" aria-label="Download Word document" title="Download Word document" onClick={() => void downloadResumeDocx(doc, mode, settings)} data-testid="button-download-word"><Download size={14} aria-hidden="true" /> WORD</button>
+              <button type="button" className="button button-secondary" aria-label="Download PDF" title="Download PDF" onClick={() => {
+                const action = () => void downloadResumePdf(doc, mode, settings);
+                onGateDownload ? onGateDownload('pdf', action) : action();
+              }} data-testid="button-download-pdf"><Download size={14} aria-hidden="true" /> PDF</button>
+              <button type="button" className="button button-secondary" aria-label="Download Word document" title="Download Word document" onClick={() => {
+                const action = () => void downloadResumeDocx(doc, mode, settings);
+                onGateDownload ? onGateDownload('word', action) : action();
+              }} data-testid="button-download-word"><Download size={14} aria-hidden="true" /> WORD</button>
               <button type="button" className="button button-secondary" aria-label="Download CSV" title="Download CSV" onClick={onDownloadCsv} data-testid="button-download-resume-csv"><Download size={14} aria-hidden="true" /> CSV</button>
             </div>
           </div>
